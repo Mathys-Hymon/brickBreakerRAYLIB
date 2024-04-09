@@ -1,4 +1,5 @@
 #include "ball.h"
+#include <iostream>
 
 ball::ball(float radius, Vector2 velocity, Vector2 position, Color color) : radius(radius), velocity(velocity), position(position), color(color) {}
 
@@ -27,24 +28,33 @@ void ball::SetPosition(Vector2 position)
     this->position = position; 
 }
 
+void ball::CheckCollision(const paddle& pad)
+{
+    if (position.x - (radius / 2) < pad.GetPosition().x + (pad.GetWidth() / 2) && position.x + (radius / 2) > pad.GetPosition().x - (pad.GetWidth() / 2) && position.y - (radius / 2) < pad.GetPosition().y + (pad.GetHeight() / 2) && position.y + (radius / 2) > pad.GetPosition().y - (pad.GetHeight() / 2)) {
+        velocity.y *= -1;
+        velocity.x = (velocity.x * ((pad.GetPosition().x - position.x) / (pad.GetWidth() / 2))) * 2;
+    }
+    
+}
+
 void ball::Update(float deltaTime) 
 {
     position.x += velocity.x * 50 * deltaTime;
     position.y += velocity.y * 50 * deltaTime;
 
-    if (position.x <= 0) {
+    if (position.x - radius/2 < 0) {
         position.x = 0 + radius / 2;
         velocity.x *= -1;
     }
-    if (position.x >= GetScreenWidth()) {
+    if (position.x + radius/2 > GetScreenWidth()) {
         position.x = GetScreenWidth() - radius / 2;
         velocity.x *= -1;
     }
-    if (position.y <= 0) {
+    if (position.y - radius/2 < 0) {
         position.y = 0 + radius / 2;
         velocity.y *= -1;
     }
-    if (position.y >= GetScreenHeight()) {
+    if (position.y + radius/2 > GetScreenHeight()) {
         position.y = GetScreenHeight() - radius / 2;
         velocity.y *= -1;
     }

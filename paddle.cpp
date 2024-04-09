@@ -1,6 +1,6 @@
 #include "paddle.h"
 
-paddle::paddle(float width, float height, float speed) : width(width), height(height), speed(speed), position{ GetScreenWidth() / 2.0f, GetScreenHeight() - 50.0f } {}
+paddle::paddle(float width, float height, float speed) : width(width), height(height), speed(speed), position{ GetScreenWidth() / 2.0f, GetScreenHeight() - (GetScreenHeight() / 10.0f) } {}
 
 float paddle::GetWidth() const 
 { 

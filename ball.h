@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "paddle.h"
 
 class ball
 {
@@ -18,6 +19,7 @@ public:
 
     void SetVelocity(Vector2 velocity);
     void SetPosition(Vector2 position);
+    void CheckCollision(const paddle& pad);
 
     void Update(float deltaTime);
     void Draw() const;

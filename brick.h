@@ -4,22 +4,16 @@
 class brick
 {
 private:
-    Vector2 dimension;
     Vector2 position;
-    float radius;
+    Vector2 dimension;
+    Vector2 mapPosition;
+    int lives;
     Color color;
 
 public:
-    brick(float radius, Vector2 velocity, Vector2 position, Color color);
+    brick(Vector2 position, Vector2 dimension, Vector2 mapPosition, int lives);
 
-    float GetRadius() const;
-    Vector2 GetVelocity() const;
-    Vector2 GetPosition() const;
-
-    void SetVelocity(Vector2 velocity);
-    void SetPosition(Vector2 position);
-
-    void Update(float deltaTime);
+    void Update();
     void Draw() const;
 };
 
