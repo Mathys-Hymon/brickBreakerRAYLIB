@@ -1,16 +1,16 @@
 #pragma once
 #include "raylib.h"
 
-class ball
+class brick
 {
 private:
+    Vector2 dimension;
+    Vector2 position;
     float radius;
     Color color;
-    Vector2 velocity;
-    Vector2 position;
 
 public:
-    ball(float radius, Vector2 velocity, Vector2 position, Color color);
+    brick(float radius, Vector2 velocity, Vector2 position, Color color);
 
     float GetRadius() const;
     Vector2 GetVelocity() const;
@@ -22,3 +22,4 @@ public:
     void Update(float deltaTime);
     void Draw() const;
 };
+
