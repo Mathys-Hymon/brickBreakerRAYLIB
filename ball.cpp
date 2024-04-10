@@ -1,7 +1,7 @@
 #include "ball.h"
 #include <iostream>
 
-ball::ball(float radius, Vector2 velocity, Vector2 position, Color color) : radius(radius), velocity(velocity), position(position), color(color) {}
+ball::ball(float radius, Vector2 velocity, Vector2 position, Color color) : radius(radius), velocity(velocity), position(position), color(color), maxVelocity(velocity) {}
 
 float ball::GetRadius() const 
 { 
@@ -30,9 +30,20 @@ void ball::SetPosition(Vector2 position)
 
 void ball::CheckCollision(const paddle& pad)
 {
-    if (position.x - (radius / 2) < pad.GetPosition().x + (pad.GetWidth() / 2) && position.x + (radius / 2) > pad.GetPosition().x - (pad.GetWidth() / 2) && position.y - (radius / 2) < pad.GetPosition().y + (pad.GetHeight() / 2) && position.y + (radius / 2) > pad.GetPosition().y - (pad.GetHeight() / 2)) {
+    if (position.x - (radius / 2) < pad.GetPosition().x + (pad.GetWidth() / 2) &&
+        position.x + (radius / 2) > pad.GetPosition().x - (pad.GetWidth() / 2) &&
+        position.y - (radius / 2) < pad.GetPosition().y + (pad.GetHeight() / 2) &&
+        position.y + (radius / 2) > pad.GetPosition().y - (pad.GetHeight() / 2)) {
+
         velocity.y *= -1;
-        velocity.x = (velocity.x * ((pad.GetPosition().x - position.x) / (pad.GetWidth() / 2))) * 2;
+
+        if (position.x < pad.GetPosition().x) {
+            velocity.x = -maxVelocity.x * (fabsf(pad.GetPosition().x - position.x) / (pad.GetWidth() / 2));
+        }
+        else {
+            velocity.x = maxVelocity.x * (fabsf(pad.GetPosition().x - position.x) / (pad.GetWidth() / 2));
+        }
+        
     }
     
 }
@@ -52,10 +63,6 @@ void ball::Update(float deltaTime)
     }
     if (position.y - radius/2 < 0) {
         position.y = 0 + radius / 2;
-        velocity.y *= -1;
-    }
-    if (position.y + radius/2 > GetScreenHeight()) {
-        position.y = GetScreenHeight() - radius / 2;
         velocity.y *= -1;
     }
 }

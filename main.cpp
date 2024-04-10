@@ -3,26 +3,27 @@
 #include "paddle.h"
 #include "GameManager.h"
 
-#include <iostream>
-
 int main() {
+    const int screenWidth = 600;
+    const int screenHeight = 800;
 
-    InitWindow(600, 800, "BRICK BREAKER");
+    InitWindow(screenWidth, screenHeight, "Brick Breaker");
     SetTargetFPS(60);
 
-    ball Ball(10.0f, { 3.0f, -3.0f }, { 300, 400 }, BLUE);
-    paddle playerPaddle(150, 25, 5.0f);
+    ball gameBall(10.0f, { 3.0f, -3.0f }, { screenWidth / 2.0f, screenHeight - 50.0f }, RED);
+    paddle playerPaddle(100.0f, 20.0f, 5.0f);
+
+    GameManager gameManager(gameBall, playerPaddle);
+
+    gameManager.Initialize();
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-
-        playerPaddle.Update();
-        playerPaddle.Draw();
-
-        Ball.Update(GetFrameTime());
-        Ball.Draw();
-        Ball.CheckCollision(playerPaddle);
         ClearBackground(RAYWHITE);
+
+        gameManager.Update(GetFrameTime());
+        gameManager.Draw();
+
         EndDrawing();
     }
 

@@ -6,8 +6,10 @@ class ball
 {
 private:
     float radius;
+    
     Color color;
     Vector2 velocity;
+    Vector2 maxVelocity;
     Vector2 position;
 
 public:

@@ -2,6 +2,13 @@
 #include "raylib.h"
 
 class paddle {
+
+private:
+    float width;
+    float height;
+    float speed;
+    Vector2 position;
+
 public:
     paddle(float width, float height, float speed);
 
@@ -9,13 +16,7 @@ public:
     float GetHeight() const;
     Vector2 GetPosition() const;
 
-    void Update();
+    void Update(float deltaTime);
     void Draw() const;
-
-private:
-    float width;
-    float height;
-    float speed;
-    Vector2 position;
 };
 
