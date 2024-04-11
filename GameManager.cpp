@@ -1,4 +1,7 @@
 #include "GameManager.h"
+#include "raylib.h"
+#include <iostream>
+#include <string>
 
 void GameManager::Initialize() {
     Ball.SetPosition({ 400.0f, 300.0f });
@@ -20,9 +23,14 @@ void GameManager::Update(float deltaTime)
 
 void GameManager::Draw() const
 {
-    DrawText("Score: " + score, 10, 10, 20, WHITE);
+    
     if (!gameOver) {
+        
+        std::string scoreString = std::to_string(score);
+        DrawText(scoreString.c_str(), 150, 10, 20, BLACK);
+        DrawText("Score : ", 10, 10, 20, BLACK);
         Ball.Draw();
+        Ball.CheckCollision(Player);
         Player.Draw();
 
         for (const auto& row : bricks) {
@@ -40,20 +48,19 @@ void GameManager::Draw() const
 
 void GameManager::CreateBricks(int numRows)
 {
-    const int numCols = 10;
-    const float brickWidth = 80.0f;
+    const int numCols = 20;
+    const float brickWidth = GetScreenWidth() / numCols;
     const float brickHeight = 24.0f;
-    const float brickPadding = 2.0f;
-    const float startX = (GetScreenWidth() - numCols * (brickWidth + brickPadding)) / 2.0f;
+    const float startX = (GetScreenWidth() - numCols * (brickWidth + 2)) / 2.0f;
     const float startY = 50.0f;
 
     bricks.clear();
     for (int i = 0; i < numRows; ++i) {
         std::vector<brick> row;
         for (int j = 0; j < numCols; ++j) {
-            float x = startX + j * (brickWidth + brickPadding);
-            float y = startY + i * (brickHeight + brickPadding);
-            row.push_back(brick(x, y, brickWidth, brickHeight, 0));
+            float x = startX + j * (brickWidth + 2);
+            float y = startY + i * (brickHeight + 2);
+            row.push_back(brick(x, y, brickWidth, brickHeight, 2));
         }
         bricks.push_back(row);
     }
@@ -61,13 +68,13 @@ void GameManager::CreateBricks(int numRows)
 
 void GameManager::CheckCollisions()
 {
-    int row = static_cast<int>(Player.GetPosition().y / bricks[0][0].GetDimensions().y);
-    int col = static_cast<int>(Player.GetPosition().x / bricks[0][0].GetDimensions().x);
-
-    if (row >= 0 && row < bricks[0].size()-1 && col >= 0 && col < bricks.size() - 1) {
-        if (bricks[row][col].DestructionState() > 0) {
-            if (bricks[row][col].checkCollision(Ball)) {
-                score += 10;
+    for (int row = 0; row < bricks.size(); ++row) {
+        for (int col = 0; col < bricks[row].size(); ++col) {
+            // Vérifie si la brique n'est pas déjà détruite
+            if (bricks[row][col].DestructionState() > 0) {
+                if (bricks[row][col].checkCollision(Ball)) {
+                    score += 10;
+                }
             }
         }
     }

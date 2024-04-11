@@ -17,6 +17,7 @@ public:
 
     void Draw() const;
     int DestructionState() const;
+    void SetColor(Color color);
     bool checkCollision(ball& _ball);
     Vector2 GetDimensions() const;
 };
