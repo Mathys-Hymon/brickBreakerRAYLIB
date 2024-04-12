@@ -1,6 +1,6 @@
 #include "brick.h"
 
-brick::brick(float x, float y, float width, float height, int life) : position({x,y}), dimension({width,height}),lives(life), maxLives(life), color(RED)
+brick::brick(float x, float y, float width, float height, int life) : position({x,y}), dimension({width,height}),lives(life), maxLives(life), color(BLUE)
 {
 }
 
@@ -8,19 +8,15 @@ brick::brick(float x, float y, float width, float height, int life) : position({
 
 void brick::Draw() const
 {
+    Color tempcolor = BLANK;
+
     if (lives == maxLives) {
-        DrawRectangle(position.x - dimension.x / 2, position.y - dimension.y / 2, dimension.x, dimension.y, color);
-    }
-    else if (lives >= 3) {
-        DrawRectangle(position.x - dimension.x / 2, position.y - dimension.y / 2, dimension.x, dimension.y, DARKGREEN);
-    }
-    else if (lives >= 2) {
-        DrawRectangle(position.x - dimension.x / 2, position.y - dimension.y / 2, dimension.x, dimension.y, RED);
+        tempcolor = color;
     }
     else {
-        DrawRectangle(position.x - dimension.x / 2, position.y - dimension.y / 2, dimension.x, dimension.y, BEIGE);
+        tempcolor = DARKBLUE;
     }
-        
+    DrawRectangle((position.x - dimension.x / 2) + 1, (position.y - dimension.y / 2) + 1, dimension.x - 2, dimension.y - 2, tempcolor);
 }
 
 int brick::DestructionState() const

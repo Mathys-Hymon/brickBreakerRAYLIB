@@ -10,12 +10,12 @@ int main() {
     InitWindow(screenWidth, screenHeight, "Brick Breaker");
     SetTargetFPS(60);
 
-    ball gameBall(10.0f, {4, 4}, { screenWidth / 2.0f, screenHeight - 50.0f }, RED);
+    ball gameBall(10.0f, {6, 6}, { screenWidth / 2.0f, screenHeight - 50.0f }, RED);
     paddle playerPaddle(100.0f, 20.0f, 5.0f);
 
     GameManager gameManager(gameBall, playerPaddle);
 
-    gameManager.Initialize();
+    gameManager.Initialize(1);
 
     while (!WindowShouldClose()) {
         BeginDrawing();

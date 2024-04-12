@@ -12,14 +12,15 @@ private:
     int score;
     int lifes;
     bool gameOver;
+    bool gameStarted;
     void CreateBricks(int numRows);
     void CheckCollisions();
 
 public:
     GameManager(ball& Ball, paddle& Player);
     ~GameManager();
-    void Initialize();
+    void Initialize(int bricksRow);
     void Update(float deltaTime);
     void Draw() const;
-    void Restart();
+    void NewRound();
 };
